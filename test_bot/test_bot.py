@@ -14,9 +14,9 @@ import shutil
 import importlib
 if __name__ == "__main__":
     sys.exit(f"The script {os.path.basename(__file__)} should only be run by pytest.")
-shutil.copyfile("lichess.py", "correct_lichess.py")
-shutil.copyfile("test_bot/lichess.py", "lichess.py")
-lichess_bot = importlib.import_module("lichess-bot")
+shutil.copyfile("playstrategy.py", "correct_playstrategy.py")
+shutil.copyfile("test_bot/playstrategy.py", "playstrategy.py")
+playstrategy_bot = importlib.import_module("playstrategy-bot")
 
 platform = sys.platform
 file_extension = ".exe" if platform == "win32" else ""
@@ -62,23 +62,23 @@ download_sf()
 if platform == "win32":
     download_lc0()
     download_sjeng()
-logging_level = lichess_bot.logging.INFO
-lichess_bot.logging.basicConfig(level=logging_level, filename=None, format="%(asctime)-15s: %(message)s")
-lichess_bot.enable_color_logging(debug_lvl=logging_level)
-lichess_bot.logger.info("Downloaded engines")
+logging_level = playstrategy_bot.logging.INFO
+playstrategy_bot.logging.basicConfig(level=logging_level, filename=None, format="%(asctime)-15s: %(message)s")
+playstrategy_bot.enable_color_logging(debug_lvl=logging_level)
+playstrategy_bot.logger.info("Downloaded engines")
 
 
 def run_bot(CONFIG, logging_level, stockfish_path):
-    lichess_bot.logger.info(lichess_bot.intro())
-    li = lichess_bot.lichess.Lichess(CONFIG["token"], CONFIG["url"], lichess_bot.__version__)
+    playstrategy_bot.logger.info(playstrategy_bot.intro())
+    li = playstrategy_bot.playstrategy.playstrategy(CONFIG["token"], CONFIG["url"], playstrategy_bot.__version__)
 
     user_profile = li.get_profile()
     username = user_profile["username"]
     is_bot = user_profile.get("title") == "BOT"
-    lichess_bot.logger.info(f"Welcome {username}!")
+    playstrategy_bot.logger.info(f"Welcome {username}!")
 
     if not is_bot:
-        is_bot = lichess_bot.upgrade_account(li)
+        is_bot = playstrategy_bot.upgrade_account(li)
 
     if is_bot:
         def run_test():
@@ -126,7 +126,7 @@ def run_bot(CONFIG, logging_level, stockfish_path):
                         with open("./logs/states.txt", "w") as file:
                             file.write(state)
 
-                    else:  # lichess-bot move
+                    else:  # playstrategy-bot move
                         start_time = time.perf_counter_ns()
                         while True:
                             with open("./logs/states.txt") as states:
@@ -166,7 +166,7 @@ def run_bot(CONFIG, logging_level, stockfish_path):
 
             thr = threading.Thread(target=thread_for_test)
             thr.start()
-            lichess_bot.start(li, user_profile, CONFIG, logging_level, None, one_game=True)
+            playstrategy_bot.start(li, user_profile, CONFIG, logging_level, None, one_game=True)
             thr.join()
 
         run_test()
@@ -176,7 +176,7 @@ def run_bot(CONFIG, logging_level, stockfish_path):
         return data
 
     else:
-        lichess_bot.logger.error(f'{user_profile["username"]} is not a bot account. Please upgrade it to a bot account!')
+        playstrategy_bot.logger.error(f'{user_profile["username"]} is not a bot account. Please upgrade it to a bot account!')
 
 
 @pytest.mark.timeout(150, method="thread")
@@ -197,7 +197,7 @@ def test_sf():
     stockfish_path = f"./TEMP/sf2{file_extension}"
     win = run_bot(CONFIG, logging_level, stockfish_path)
     shutil.rmtree("logs")
-    lichess_bot.logger.info("Finished Testing SF")
+    playstrategy_bot.logger.info("Finished Testing SF")
     assert win == "1"
     assert os.path.isfile(os.path.join(CONFIG["pgn_directory"], "bo vs b - zzzzzzzz.pgn"))
 
@@ -223,7 +223,7 @@ def test_lc0():
     stockfish_path = "./TEMP/sf2.exe"
     win = run_bot(CONFIG, logging_level, stockfish_path)
     shutil.rmtree("logs")
-    lichess_bot.logger.info("Finished Testing LC0")
+    playstrategy_bot.logger.info("Finished Testing LC0")
     assert win == "1"
     assert os.path.isfile(os.path.join(CONFIG["pgn_directory"], "bo vs b - zzzzzzzz.pgn"))
 
@@ -248,7 +248,7 @@ def test_sjeng():
     stockfish_path = "./TEMP/sf2.exe"
     win = run_bot(CONFIG, logging_level, stockfish_path)
     shutil.rmtree("logs")
-    lichess_bot.logger.info("Finished Testing Sjeng")
+    playstrategy_bot.logger.info("Finished Testing Sjeng")
     assert win == "1"
     assert os.path.isfile(os.path.join(CONFIG["pgn_directory"], "bo vs b - zzzzzzzz.pgn"))
 
@@ -279,6 +279,6 @@ def test_homemade():
     shutil.rmtree("logs")
     with open("strategies.py", "w") as file:
         file.write(original_strategies)
-    lichess_bot.logger.info("Finished Testing Homemade")
+    playstrategy_bot.logger.info("Finished Testing Homemade")
     assert win == "1"
     assert os.path.isfile(os.path.join(CONFIG["pgn_directory"], "bo vs b - zzzzzzzz.pgn"))
