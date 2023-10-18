@@ -1,8 +1,8 @@
-token: "xxxxxxxxxxxxxxxx"    # Lichess OAuth2 Token.
-url: "https://lichess.org/"  # Lichess base URL.
+token: "xxxxxxxxxxxxxxxx"    # playstrategy OAuth2 Token.
+url: "https://playstrategy.org/"  # playstrategy base URL.
 
 engine:                      # Engine settings.
-  dir: "./engines/"          # Directory containing the engine. This can be an absolute path or one relative to lichess-bot/.
+  dir: "./engines/"          # Directory containing the engine. This can be an absolute path or one relative to playstrategy-bot/.
   name: "engine_name"        # Binary name of the engine to use.
   working_dir: ""            # Directory where the chess engine will read and write files. If blank or missing, the current directory is used.
   protocol: "uci"            # "uci" or "xboard"
@@ -38,7 +38,7 @@ engine:                      # Engine settings.
       move_quality: "good"   # One of "all", "good", "best".
       min_depth: 20          # Only for move_quality: "best".
       contribute: true
-    lichess_cloud_analysis:
+    playstrategy_cloud_analysis:
       enabled: false
       min_time: 20
       move_quality: "good"   # One of "good", "best".
@@ -49,7 +49,7 @@ engine:                      # Engine settings.
       enabled: false
       min_time: 20
       max_pieces: 7
-      source: "lichess"      # One of "lichess", "chessdb".
+      source: "playstrategy"      # One of "playstrategy", "chessdb".
       move_quality: "best"   # One of "good", "best".
 # engine_options:            # Any custom command line params to pass to the engine.
 #   cpuct: 3.1
@@ -96,7 +96,7 @@ challenge:                   # Incoming challenges.
   min_increment: 0           # Minimum amount of increment to accept a challenge.
   max_base: 315360000        # Maximum amount of base time to accept a challenge. The max is 315360000 (10 years).
   min_base: 0                # Minimum amount of base time to accept a challenge.
-  variants:                  # Chess variants to accept (https://lichess.org/variant).
+  variants:                  # Chess variants to accept (https://playstrategy.org/variant).
     - standard
 #   - fromPosition
 #   - antichess
@@ -134,6 +134,6 @@ matchmaking:
   challenge_initial_time: 60  # Initial time in seconds of the challenge.
   challenge_increment: 3      # Increment in seconds of the challenge.
 # challenge_days: 2           # Days for correspondence challenge. If this option is enabled, a correspondence challenge will be created even if 'challenge_initial_time' is enabled.
-  opponent_min_rating: 600    # Opponents rating should be above this value (600 is the minimum rating in lichess).
-  opponent_max_rating: 4000   # Opponents rating should be below this value (4000 is the maximum rating in lichess).
+  opponent_min_rating: 600    # Opponents rating should be above this value (600 is the minimum rating in playstrategy).
+  opponent_max_rating: 4000   # Opponents rating should be below this value (4000 is the maximum rating in playstrategy).
   challenge_mode: "random"    # Set it to the mode in which challenges are sent. Possible options are 'casual', 'rated' and 'random'.
