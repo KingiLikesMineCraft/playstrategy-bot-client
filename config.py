@@ -14,8 +14,8 @@ def load_config(config_file):
             logger.error("There appears to be a syntax problem with your config.yml")
             raise e
 
-        if "LICHESS_BOT_TOKEN" in os.environ:
-            CONFIG["token"] = os.environ["LICHESS_BOT_TOKEN"]
+        if "playstrategy_BOT_TOKEN" in os.environ:
+            CONFIG["token"] = os.environ["playstrategy_BOT_TOKEN"]
 
         # [section, type, error message]
         sections = [["token", str, "Section `token` must be a string wrapped in quotes."],
@@ -37,7 +37,7 @@ def load_config(config_file):
                 raise Exception(f"´engine´ subsection {subsection[2]}")
 
         if CONFIG["token"] == "xxxxxxxxxxxxxxxx":
-            raise Exception("Your config.yml has the default Lichess API token. This is probably wrong.")
+            raise Exception("Your config.yml has the default playstrategy API token. This is probably wrong.")
 
         if not os.path.isdir(CONFIG["engine"]["dir"]):
             raise Exception(f'Your engine directory `{CONFIG["engine"]["dir"]}` is not a directory.')
