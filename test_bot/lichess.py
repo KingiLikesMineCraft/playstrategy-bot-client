@@ -74,8 +74,8 @@ class EventStream:
             yield b'{"type":"gameStart","game":{"id":"zzzzzzzz","source":"friend","compat":{"bot":true,"board":true}}}'
 
 
-# docs: https://lichess.org/api
-class Lichess:
+# docs: https://playstrategy.org/api
+class playstrategy:
     def __init__(self, token, url, version):
         self.version = version
         self.header = {
@@ -151,7 +151,7 @@ class Lichess:
         return
 
     def get_profile(self):
-        profile = {"id": "b", "username": "b", "online": True, "title": "BOT", "url": "https://lichess.org/@/bo", "followable": True, "following": False, "blocking": False, "followsYou": False}
+        profile = {"id": "b", "username": "b", "online": True, "title": "BOT", "url": "https://playstrategy.org/@/bo", "followable": True, "following": False, "blocking": False, "followsYou": False}
         self.set_user_agent(profile["username"])
         return profile
 
@@ -162,7 +162,7 @@ class Lichess:
         return
 
     def set_user_agent(self, username):
-        self.header.update({"User-Agent": f"lichess-bot/{self.version} user:{username}"})
+        self.header.update({"User-Agent": f"playstrategy-bot/{self.version} user:{username}"})
         self.session.headers.update(self.header)
 
     def get_game_pgn(self, game_id):
