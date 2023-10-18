@@ -1,14 +1,14 @@
-# lichess-bot
-[![Python Build](https://github.com/ShailChoksi/lichess-bot/actions/workflows/python-build.yml/badge.svg)](https://github.com/ShailChoksi/lichess-bot/actions/workflows/python-build.yml)
-[![Python Test](https://github.com/ShailChoksi/lichess-bot/actions/workflows/python-test.yml/badge.svg)](https://github.com/ShailChoksi/lichess-bot/actions/workflows/python-test.yml)
+# playstrategy-bot
+[![Python Build](https://github.com/ShailChoksi/playstrategy-bot/actions/workflows/python-build.yml/badge.svg)](https://github.com/ShailChoksi/playstrategy-bot/actions/workflows/python-build.yml)
+[![Python Test](https://github.com/ShailChoksi/playstrategy-bot/actions/workflows/python-test.yml/badge.svg)](https://github.com/ShailChoksi/playstrategy-bot/actions/workflows/python-test.yml)
 
-A bridge between [Lichess Bot API](https://lichess.org/api#tag/Bot) and bots.
+A bridge between [playstrategy Bot API](https://playstrategy.org/api#tag/Bot) and bots.
 
 ## How to Install
 ### Mac/Linux:
 - **NOTE: Only Python 3.7 or later is supported!**
-- Download the repo into lichess-bot directory.
-- Navigate to the directory in cmd/Terminal: `cd lichess-bot`.
+- Download the repo into playstrategy-bot directory.
+- Navigate to the directory in cmd/Terminal: `cd playstrategy-bot`.
 - Install pip: `apt install python3-pip`.
 - Install virtualenv: `pip install virtualenv`.
 - Setup virtualenv: `apt install python3-venv`.
@@ -27,8 +27,8 @@ python3 -m pip install -r requirements.txt
 - If you don't have Python, you may [download it here](https://www.python.org/downloads/). When installing it, enable "add Python to PATH", then go to custom installation (this may be not necessary, but on some computers it won't work otherwise) and enable all options (especially "install for all users"), except the last. It's better to install Python in a path without spaces, like "C:\Python\".
 - To type commands it's better to use PowerShell. Go to the Start menu and type "PowerShell" (you may use "cmd" too, but sometimes it may not work).
 - Then you may need to upgrade pip. Execute `python3 -m pip install --upgrade pip` in PowerShell.
-- Download the repo into lichess-bot directory.
-- Navigate to the directory in PowerShell: `cd [folder's address]` (example, `cd C:\chess\lichess-bot`).
+- Download the repo into playstrategy-bot directory.
+- Navigate to the directory in PowerShell: `cd [folder's address]` (example, `cd C:\chess\playstrategy-bot`).
 - Install virtualenv: `pip install virtualenv`.
 - Setup virtualenv:
 ```python
@@ -39,12 +39,12 @@ pip install -r requirements.txt
 - Copy `config.yml.default` to `config.yml`.
 - Edit the variants: `supported_variants` and time controls: `supported_tc` from the `config.yml` file as necessary (use "#" to disable certain ones).
 
-## Lichess OAuth
-- Create an account for your bot on [Lichess.org](https://lichess.org/signup).
+## playstrategy OAuth
+- Create an account for your bot on [playstrategy.org](https://playstrategy.org/signup).
 - **NOTE: If you have previously played games on an existing account, you will not be able to use it as a bot account.**
-- Once your account has been created and you are logged in, [create a personal OAuth2 token with the "Play games with the bot API" ('bot:play') scope](https://lichess.org/account/oauth/token/create?scopes[]=bot:play&description=lichess-bot) selected and a description added.
-- A `token` (e.g. `xxxxxxxxxxxxxxxx`) will be displayed. Store this in the `config.yml` file as the `token` field. You can also set the token in the environment variable `$LICHESS_BOT_TOKEN`.
-- **NOTE: You won't see this token again on Lichess, so do save it.**
+- Once your account has been created and you are logged in, [create a personal OAuth2 token with the "Play games with the bot API" ('bot:play') scope](https://playstrategy.org/account/oauth/token/create?scopes[]=bot:play&description=playstrategy-bot) selected and a description added.
+- A `token` (e.g. `xxxxxxxxxxxxxxxx`) will be displayed. Store this in the `config.yml` file as the `token` field. You can also set the token in the environment variable `$playstrategy_BOT_TOKEN`.
+- **NOTE: You won't see this token again on playstrategy, so do save it.**
 
 ## Setup Engine
 Within the file `config.yml`:
@@ -54,17 +54,17 @@ Within the file `config.yml`:
   - If this field is blank or missing, the current directory will be used.
 - Leave the `weights` field empty or see [LeelaChessZero section](#leelachesszero) for Neural Nets
 
-As an optional convenience, there is a folder named `engines` within the lichess-bot folder where you can copy your engine and all the files it needs. This is the default executable location in the `config.yml.default` file.
+As an optional convenience, there is a folder named `engines` within the playstrategy-bot folder where you can copy your engine and all the files it needs. This is the default executable location in the `config.yml.default` file.
 
 ### Engine Configuration
-Besides the above, there are many possible options within `config.yml` for configuring the engine for use with lichess-bot.
+Besides the above, there are many possible options within `config.yml` for configuring the engine for use with playstrategy-bot.
 
 - `protocol`: Specify which protocol your engine uses. Choices are
     1. `"uci"` for the [Universal Chess Interface](http://wbec-ridderkerk.nl/html/UCIProtocol.html)
     2. `"xboard"` for the XBoard/WinBoard/[Chess Engine Communication Protocol](https://www.gnu.org/software/xboard/engine-intf.html)
-    3. `"homemade"` if you want to write your own engine in Python within lichess-bot. See [**Creating a homemade bot**](#creating-a-homemade-bot) below.
+    3. `"homemade"` if you want to write your own engine in Python within playstrategy-bot. See [**Creating a homemade bot**](#creating-a-homemade-bot) below.
 - `ponder`: Specify whether your bot will ponder--i.e., think while the bot's opponent is choosing a move.
-- `polyglot`: Tell lichess-bot whether your bot should use an opening book. Multiple books can be specified for each chess variant.
+- `polyglot`: Tell playstrategy-bot whether your bot should use an opening book. Multiple books can be specified for each chess variant.
     - `enabled`: Whether to use the book at all.
     - `book`: A nested list of books. The next indented line should list a chess variant (`standard`, `3check`, `horde`, etc.) followed on succeeding indented lines with paths to the book files. See `config.yml.default` for examples.
     - `min_weight`: The minimum weight or quality a move must have if it is to have a chance of being selected. If a move cannot be found that has at least this weight, no move will be selected.
@@ -82,25 +82,25 @@ Besides the above, there are many possible options within `config.yml` for confi
     - `offer_draw_pieces`: The bot only offers/accepts draws if the position has less than or equal to `offer_draw_pieces` pieces.
 - `online_moves`: This section gives your bot access to various online resources for choosing moves like opening books and endgame tablebases. This can be a supplement or a replacement for chess databases stored on your computer. There are three sections that correspond to three different online databases:
     1. `chessdb_book`: Consults a [Chinese chess position database](https://www.chessdb.cn/), which also hosts a xiangqi database.
-    2. `lichess_cloud_analysis`: Consults [Lichess' own position analysis database](https://lichess.org/api#operation/apiCloudEval).
-    3. `online_egtb`: Consults either the online Syzygy 7-piece endgame tablebase [hosted by Lichess](https://lichess.org/blog/W3WeMyQAACQAdfAL/7-piece-syzygy-tablebases-are-complete) or the chessdb listed above.
+    2. `playstrategy_cloud_analysis`: Consults [playstrategy' own position analysis database](https://playstrategy.org/api#operation/apiCloudEval).
+    3. `online_egtb`: Consults either the online Syzygy 7-piece endgame tablebase [hosted by playstrategy](https://playstrategy.org/blog/W3WeMyQAACQAdfAL/7-piece-syzygy-tablebases-are-complete) or the chessdb listed above.
     - Configurations common to all:
         - `enabled`: Whether to use the database at all.
         - `min_time`: The minimum time in seconds on the game clock necessary to allow the online database to be consulted.
-    - Configurations only in `chessdb_book` and `lichess_cloud_analysis`:
+    - Configurations only in `chessdb_book` and `playstrategy_cloud_analysis`:
         - `move_quality`: Choice of `"all"` (`chessdb_book` only), `"good"`, or `"best"`.
             - `all`: Choose a random move from all legal moves.
             - `best`: Choose only the highest scoring move.
-            - `good`: Choose randomly from the top moves. In `lichess_cloud_analysis`, the top moves list is controlled by `max_score_difference`. In `chessdb_book`, the top list is controlled by the online source.
+            - `good`: Choose randomly from the top moves. In `playstrategy_cloud_analysis`, the top moves list is controlled by `max_score_difference`. In `chessdb_book`, the top list is controlled by the online source.
         - `min_depth`: The minimum search depth for a move evaluation for a database move to be accepted.
     - Configurations only in `chessdb_book`:
         - `contribute`: Send the current board position to chessdb for later analysis.
-    - Configurations only in `lichess_cloud_analysis`:
+    - Configurations only in `playstrategy_cloud_analysis`:
         - `max_score_difference`: When `move_quality` is set to `"good"`, this option specifies the maximum difference between the top scoring move and any other move that will make up the set from which a move will be chosen randomly. If this option is set to 25 and the top move in a position has a score of 100, no move with a score of less than 75 will be returned.
         - `min_knodes`: The minimum number of kilonodes to search. The minimum number of nodes to search is this value times 1000.
     - Configurations only in `online_egtb`:
         -  `max_pieces`: The maximum number of pieces in the current board for which the tablebase will be consulted.
-        - `source`: One of `chessdb` or `lichess`. Lichess also has tablebases for atomic and antichess while chessdb only has those for standard.
+        - `source`: One of `chessdb` or `playstrategy`. playstrategy also has tablebases for atomic and antichess while chessdb only has those for standard.
 - `engine_options`: Command line options to pass to the engine on startup. For example, the `config.yml.default` has the configuration
 ```yml
   engine_options:
@@ -143,7 +143,7 @@ Any of the names following `option name` can be listed in `uci_options` in order
     Move Overhead: 100
     Skill Level: 10
 ```
-The exceptions to this are the options `uci_chess960`, `uci_variant`, `multipv`, and `ponder`. These will be handled by lichess-bot after a game starts and should not be listed in `config.yml`. Also, if an option is listed under `uci_options` that is not in the list printed by the engine, it will cause an error when the engine starts because the engine won't understand the option. The word after `type` indicates the expected type of the options: `string` for a text string, `spin` for a numeric value, `check` for a boolean True/False value.
+The exceptions to this are the options `uci_chess960`, `uci_variant`, `multipv`, and `ponder`. These will be handled by playstrategy-bot after a game starts and should not be listed in `config.yml`. Also, if an option is listed under `uci_options` that is not in the list printed by the engine, it will cause an error when the engine starts because the engine won't understand the option. The word after `type` indicates the expected type of the options: `string` for a text string, `spin` for a numeric value, `check` for a boolean True/False value.
 
 One last option is `go_commands`. Beneath this option, arguments to the UCI `go` command can be passed. For example,
 ```yml
@@ -164,10 +164,10 @@ Any of the options can be listed under `xboard_options` in order to configure th
 ```yml
   xboard_options:
     Add Noise: False
-    PGN File: lichess_games.pgn
+    PGN File: playstrategy_games.pgn
     CPU Count: 1
 ```
-The exceptions to this are the options `multipv`, and `ponder`. These will be handled by lichess-bot after a game starts and should not be listed in `config.yml`. Also, if an option is listed under `xboard_options` that is not in the list printed by the engine, it will cause an error when the engine starts because the engine won't know how to handle the option. The word prefixed with a hyphen indicates the expected type of the options: `-string` for a text string, `-spin` for a numeric value, `-check` for a boolean True/False value.
+The exceptions to this are the options `multipv`, and `ponder`. These will be handled by playstrategy-bot after a game starts and should not be listed in `config.yml`. Also, if an option is listed under `xboard_options` that is not in the list printed by the engine, it will cause an error when the engine starts because the engine won't know how to handle the option. The word prefixed with a hyphen indicates the expected type of the options: `-string` for a text string, `-spin` for a numeric value, `-check` for a boolean True/False value.
 
 One last option is `go_commands`. Beneath this option, commands prior to the `go` command can be passed. For example,
 ```yml
@@ -178,7 +178,7 @@ will precede the `go` command to start thinking with `sd 5`. The other `go_comma
 
 - `abort_time`: How many seconds to wait before aborting a game due to opponent inaction. This only applies during the first six moves of the game.
 - `fake_think_time`: Artificially slow down the engine to simulate a person thinking about a move. The amount of thinking time decreases as the game goes on.
-- `rate_limiting_delay`: For extremely fast games, the lichess.org servers may respond with an error if too many moves are played too quickly. This option avoids this problem by pausing for a specified number of milliseconds after submitting a move before making the next move.
+- `rate_limiting_delay`: For extremely fast games, the playstrategy.org servers may respond with an error if too many moves are played too quickly. This option avoids this problem by pausing for a specified number of milliseconds after submitting a move before making the next move.
 - `move_overhead`: To prevent losing on time due to network lag, subtract this many milliseconds from the time to think on each move.
 
 - `correspondence` These options control how the engine behaves during correspondence games.
@@ -219,7 +219,7 @@ will precede the `go` command to start thinking with `sd 5`. The other `go_comma
     -rated
     -casual
 ```
-- `greeting`: Send messages via chat to the bot's opponent. The string `{me}` will be replaced by the bot's lichess account name. The string `{opponent}` will be replaced by the opponent's lichess account name. Any other word between curly brackets will be removed. If you want to put a curly bracket in the message, use two: `{{` or `}}`.
+- `greeting`: Send messages via chat to the bot's opponent. The string `{me}` will be replaced by the bot's playstrategy account name. The string `{opponent}` will be replaced by the opponent's playstrategy account name. Any other word between curly brackets will be removed. If you want to put a curly bracket in the message, use two: `{{` or `}}`.
   - `hello`: Message to send to the opponent before the bot makes its first move.
   - `goodbye`: Message to send to the opponent once the game is over.
 ```yml
@@ -238,8 +238,8 @@ will precede the `go` command to start thinking with `sd 5`. The other `go_comma
   - `challenge_initial_time`: The initial time (in seconds) for the challenges.
   - `challenge_increment`: The increment (in seconds) for the challenges.
   - `challenge_days`: The days for a correspondence challenge. If this option is enabled, a correspondence challenge will be created even if `challenge_initial_time` is enabled.
-  - `opponent_min_rating`: The minimum rating of the opponent bot. The minimum rating in lichess is 600.
-  - `opponent_max_rating`: The maximum rating of the opponent bot. The maximum rating in lichess is 4000.
+  - `opponent_min_rating`: The minimum rating of the opponent bot. The minimum rating in playstrategy is 600.
+  - `opponent_max_rating`: The maximum rating of the opponent bot. The maximum rating in playstrategy is 4000.
   - `challenge_mode`: Possible options are `casual`, `rated` and `random`.
 ```yml
 matchmaking:
@@ -254,20 +254,20 @@ matchmaking:
   challenge_mode: "random"
 ```
 
-## Lichess Upgrade to Bot Account
-**WARNING: This is irreversible. [Read more about upgrading to bot account](https://lichess.org/api#operation/botAccountUpgrade).**
-- run `python3 lichess-bot.py -u`.
+## playstrategy Upgrade to Bot Account
+**WARNING: This is irreversible. [Read more about upgrading to bot account](https://playstrategy.org/api#operation/botAccountUpgrade).**
+- run `python3 playstrategy-bot.py -u`.
 
 ## To Run
 After activating the virtual environment created in the installation steps (the `source` line for Linux and Macs or the `activate` script for Windows), run
 ```
-python3 lichess-bot.py
+python3 playstrategy-bot.py
 ```
-The working directory for the engine execution will be the lichess-bot directory. If your engine requires files located elsewhere, make sure they are specified by absolute path or copy the files to an appropriate location inside the lichess-bot directory.
+The working directory for the engine execution will be the playstrategy-bot directory. If your engine requires files located elsewhere, make sure they are specified by absolute path or copy the files to an appropriate location inside the playstrategy-bot directory.
 
-To output more information (including your engine's thinking output and debugging information), the `-v` option can be passed to lichess-bot:
+To output more information (including your engine's thinking output and debugging information), the `-v` option can be passed to playstrategy-bot:
 ```
-python3 lichess-bot.py -v
+python3 playstrategy-bot.py -v
 ```
 
 ## To Quit
@@ -281,7 +281,7 @@ python3 lichess-bot.py -v
 - Copy both the files into the `engine.dir` directory.
 - Change the `engine.name` and `engine.engine_options.weights` keys in `config.yml` file to `lczero` and `weights.pb.gz`.
 - You can specify the number of `engine.uci_options.threads` in the `config.yml` file as well.
-- To start: `python3 lichess-bot.py`.
+- To start: `python3 playstrategy-bot.py`.
 
 ## LeelaChessZero: Windows CPU 2021
 - For Windows modern CPUs, download the lczero binary from the [latest Lc0 release](https://github.com/LeelaChessZero/lc0/releases) (e.g. `lc0-v0.27.0-windows-cpu-dnnl.zip`).
@@ -289,10 +289,10 @@ python3 lichess-bot.py -v
 - All three main files need to be copied to the engines directory.
 - The `lc0.exe` should be doubleclicked and the windows safesearch warning about it being unsigned should be cleared (be careful and be sure you have the genuine file).
 - Change the `engine.name` key in the `config.yml` file to `lc0.exe`, no need to edit the `config.yml` file concerning the weights file as the `lc0.exe` will use whatever `*.pb.gz` is in the same folder (have only one `*pb.gz` file in the engines directory).
-- To start: `python3 lichess-bot.py`.
+- To start: `python3 playstrategy-bot.py`.
 
 ## LeelaChessZero: Docker container
-Use https://github.com/vochicong/lc0-nvidia-docker to easily run lc0 and lichess-bot inside a Docker container.
+Use https://github.com/vochicong/lc0-nvidia-docker to easily run lc0 and playstrategy-bot inside a Docker container.
 
 ## <a name="creating-a-homemade-bot"></a> Creating a homemade bot
 As an alternative to creating an entire chess engine and implementing one of the communication protocols (`UCI` or `XBoard`), a bot can also be created by writing a single class with a single method. The `search()` method in this new class takes the current board and the game clock as arguments and should return a move based on whatever criteria the coder desires.
@@ -316,14 +316,14 @@ The examples just implement `search`.
 - Here's an example systemd service definition:
 ```ini
 [Unit]
-Description=lichess-bot
+Description=playstrategy-bot
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 Environment="PYTHONUNBUFFERED=1"
-ExecStart=/usr/bin/python3 /home/thibault/lichess-bot/lichess-bot.py
-WorkingDirectory=/home/thibault/lichess-bot/
+ExecStart=/usr/bin/python3 /home/thibault/playstrategy-bot/playstrategy-bot.py
+WorkingDirectory=/home/thibault/playstrategy-bot/
 User=thibault
 Group=thibault
 Restart=always
@@ -333,7 +333,7 @@ WantedBy=multi-user.target
 ```
 
 # Acknowledgements
-Thanks to the Lichess team, especially T. Alexander Lystad and Thibault Duplessis for working with the LeelaChessZero team to get this API up. Thanks to the [Niklas Fiekas](https://github.com/niklasf) and his [python-chess](https://github.com/niklasf/python-chess) code which allows engine communication seamlessly.
+Thanks to the playstrategy team, especially T. Alexander Lystad and Thibault Duplessis for working with the LeelaChessZero team to get this API up. Thanks to the [Niklas Fiekas](https://github.com/niklasf) and his [python-chess](https://github.com/niklasf/python-chess) code which allows engine communication seamlessly.
 
 # License
-lichess-bot is licensed under the AGPLv3 (or any later version at your option). Check out the [LICENSE file](/LICENSE) for the full text.
+playstrategy-bot is licensed under the AGPLv3 (or any later version at your option). Check out the [LICENSE file](/LICENSE) for the full text.
