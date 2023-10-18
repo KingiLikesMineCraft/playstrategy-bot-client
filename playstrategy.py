@@ -27,8 +27,8 @@ ENDPOINTS = {
 }
 
 
-# docs: https://lichess.org/api
-class Lichess:
+# docs: https://playstrategy.org/api
+class playstrategy:
     def __init__(self, token, url, version, logging_level):
         self.version = version
         self.header = {
@@ -118,7 +118,7 @@ class Lichess:
         self.api_post(ENDPOINTS["resign"].format(game_id))
 
     def set_user_agent(self, username):
-        self.header.update({"User-Agent": f"lichess-bot/{self.version} user:{username}"})
+        self.header.update({"User-Agent": f"playstrategy-bot/{self.version} user:{username}"})
         self.session.headers.update(self.header)
 
     def get_game_pgn(self, game_id):
